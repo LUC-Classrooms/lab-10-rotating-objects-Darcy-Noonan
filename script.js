@@ -22,9 +22,10 @@ function setup() {
 
 function draw() {
   background(200);
-  
-  obj1.display(); // show the objects on screen
-  obj2.display();
+
+
+  obj1.display(); // show the objects on screen. Left 
+  obj2.display(); // right square
   
   // capture the distance of the mouse from each object
   let mouse1 = dist(mouseX, mouseY, obj1.x, obj1.y); 
@@ -32,6 +33,7 @@ function draw() {
 
   if(mouse1 < 50) { // first, see if the mouse is within range
     if(mouseIsPressed){
+      obj1.spin (-.002); 
       // spin object 1 by calling its spin() method
       // you will have to create that method inside the myClass constructor ...
     } else {
@@ -40,7 +42,8 @@ function draw() {
   }
   if(mouse2 < 50) {
     if(mouseIsPressed){
-      // spin object 2 by calling its spin() method
+      obj2.spin (.03);
+      // spin object 2 by calling its spin() method. Make that in the constructor function. 
     } else {
       obj2.reset();
     }
@@ -64,6 +67,10 @@ function myClass(tempX, tempY){
   Create a spin method here. Look at the reset() method below and the spin() method from the Sakai example for this week.
   the function assigned to this.spin should take a number argument; that number should be _added_ to the value of this.angle. The reset() method sets this.angle back to 0, and this.scale back to 1
   */
+ this.spin = function (a){
+  this.angle += a; 
+  this.scale *= .99; // becomes smaller each frame
+ }
   
   this.reset = function(){
       this.angle = 0;
@@ -79,11 +86,17 @@ function myClass(tempX, tempY){
   The argument to rotate() should be "this.angle", which is affected by the spin() and reset() methods
 */
     
+push(); 
+translate (this.x, this.y); 
+rotate (this.angle); 
+scale (this.scale); // P5 function vs Scale factor of object
     fill(this.color);
     rectMode(CENTER);
     // change the location to 0, 0
-    rect(this.x, this.y, this.diam, this.diam);
+    rect(0, 0, this.diam, this.diam);
+    // TO make it spin, display must have translation and rotation applied. We need to declare SPin function, apply the rotation logic, and change display function so it works. 
     
+    pop ();
   }
   
 }
